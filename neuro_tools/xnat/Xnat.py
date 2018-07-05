@@ -34,7 +34,7 @@ class Xnat:
             try:
                 print("sending image:")
                 print("SEQUENCE: " + sequence)
-                self.session.services.import_( zipfname,\
+                exp = self.session.services.import_( zipfname,\
                     overwrite='append',\
                     project=project,\
                     subject=subject,\
@@ -42,5 +42,7 @@ class Xnat:
             except:
                 print("Unexpected error during XNAT import:")
                 print(sys.exc_info())
+                print(sys.exc_info()[0])
+                break
             os.remove( zipfname )
         print('Finished!')
