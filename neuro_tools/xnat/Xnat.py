@@ -30,7 +30,7 @@ class Xnat:
         zipfname = tmp_zip( sequence_dir )
         try:
             self.session.services.import_( zipfname,\
-                overwrite='append',\
+                overwrite='none',\
                 project=project,\
                 subject=subject,\
                 trigger_pipelines=False )
