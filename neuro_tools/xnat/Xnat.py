@@ -19,18 +19,23 @@ class Xnat:
     # Listing all projects
     def list_projects(self):
         projects = []
-        total_p = len( self.session.projects )
-        for n_p in range(total_p):
-            project = self.session.projects[n_p]
+        for project in self.session.projects.values():
             projects.append( (project.id, project.name) )
         return projects
+
+    # Function to import resources
+    def import_resource( self, obj, subdir, files ):
+        for file in files:
+            filename = os.path.basename(file)
+            uri = '{}/resources/{}/files/{}?inbody=true'.format(obj.uri, subdir, filename)
+            self.session.put(uri, data=filename)
 
     # function to send a specific sequence to xnat
     def send_sequence(self, project, subject, sequence_dir):
         zipfname = tmp_zip( sequence_dir )
         try:
             self.session.services.import_( zipfname,\
-                overwrite='append',\
+                overwrite='none',\
                 project=project,\
                 subject=subject,\
                 trigger_pipelines=False )

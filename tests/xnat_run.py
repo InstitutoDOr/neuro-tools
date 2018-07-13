@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import setup_test
 import argparse
 import sys
 import os

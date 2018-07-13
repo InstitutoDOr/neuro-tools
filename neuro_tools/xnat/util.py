@@ -12,20 +12,26 @@ def unbzip( filepath, dest=None ):
             new_file.write(data)
 
 # Function to create a temporary zip file
+# data_in = folder if is a string or files if a list
 # Ignores subfolders
-def tmp_zip( folder ):
+def tmp_zip( data_in, prefix='xnat_' ):
     tmpdir = tempfile.mkdtemp()
     try:
+        files = os.listdir(data_in) if isinstance( data_in, str ) else data_in
         # Moving all files to temporary directory
-        for subfile in os.listdir(folder):
-            subfile = os.path.join(folder, subfile)
+        for subfile in files:
+            # When data_in is a folder, it completes the path
+            if isinstance( data_in, str ):
+                subfile = os.path.join(data_in, subfile)
+            # Uncompressing bz files
+            # TODO: Uncompress gz and zip
             if subfile.endswith('.bz'):
                 unbzip(subfile, tmpdir)
             else:
-                shutil.copyfile(subfile, tmpdir)
+                shutil.copy2(subfile, tmpdir)
 
         # Creating temporary zip name
-        fzip = tempfile.NamedTemporaryFile(prefix='xnat_')
+        fzip = tempfile.NamedTemporaryFile(prefix=prefix)
         fzip.close()
 
         shutil.make_archive(fzip.name, 'zip', tmpdir)
