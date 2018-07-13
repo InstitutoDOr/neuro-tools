@@ -25,24 +25,26 @@ class Xnat:
             projects.append( (project.id, project.name) )
         return projects
 
-    # function to send data to xnat
-    def send_to_xnat(self, project, subject, session_dir):
-        for sequence in os.listdir(session_dir):
-            f_sequence = os.path.join(session_dir, sequence)
-            print(f_sequence)
-            zipfname = tmp_zip( f_sequence )
-            try:
-                print("sending image:")
-                print("SEQUENCE: " + sequence)
-                exp = self.session.services.import_( zipfname,\
-                    overwrite='append',\
-                    project=project,\
-                    subject=subject,\
-                    trigger_pipelines=False )
-            except:
-                print("Unexpected error during XNAT import:")
-                print(sys.exc_info())
-                print(sys.exc_info()[0])
-                break
-            os.remove( zipfname )
+    # function to send a specific sequence to xnat
+    def send_sequence(self, project, subject, sequence_dir):
+        zipfname = tmp_zip( sequence_dir )
+        try:
+            self.session.services.import_( zipfname,\
+                overwrite='append',\
+                project=project,\
+                subject=subject,\
+                trigger_pipelines=False )
+        except:
+            print("Unexpected error during XNAT import:")
+            print(sys.exc_info())
+        os.remove( zipfname )
+
+    # function to send a complete session to xnat
+    def send_session(self, project, subject, session_dir):
+        sequences = os.listdir(session_dir)
+        for (n, sequence) in enumerate(sequences):
+            print("[{:02d}] Sending: {}".format(n, sequence))
+            sequence_dir = os.path.join(session_dir, sequence)
+            self.send_sequence( project, subject, sequence_dir )
+            
         print('Finished!')
