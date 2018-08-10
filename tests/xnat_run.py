@@ -11,6 +11,7 @@ def main():
     parser.add_argument('-project', help='Project ID', required=True)
     parser.add_argument('-subject', help='Subject ID', required=True)
     parser.add_argument('-studydir', help='Study directory with all sequences', required=True)
+    parser.add_argument('-outdir', help='Study directory with all sequences', required=True)
     parser.add_argument('-sequences', nargs='+', help='List of sequences to be uploaded [if not defined, all sequences]')
     parser.add_argument('-server', help='Server for XNAT connection', required=True)
     parser.add_argument('-username', help='Username for XNAT connection', required=True)

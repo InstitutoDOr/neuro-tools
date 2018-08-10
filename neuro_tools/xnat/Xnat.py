@@ -28,7 +28,8 @@ class Xnat:
         for file in files:
             filename = os.path.basename(file)
             uri = '{}/resources/{}/files/{}?inbody=true'.format(obj.uri, subdir, filename)
-            self.session.put(uri, data=filename)
+            with open(file, 'rb') as f:
+                self.session.put(uri, data=f.read())
 
     # function to send a specific sequence to xnat
     def send_sequence(self, project, subject, sequence_dir):
