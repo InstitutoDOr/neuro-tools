@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="neuro_tools",
-    version="0.1.1",
+    version="0.1.2",
     author="Bruno Melo",
     author_email="bruno.melo@idor.org",
     description="Neuroimaging tools to help with BIDS, XNAT, workflows, etc.",

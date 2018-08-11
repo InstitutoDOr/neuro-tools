@@ -27,9 +27,9 @@ class Xnat:
     def import_resource( self, obj, subdir, files ):
         for file in files:
             filename = os.path.basename(file)
-            uri = '{}/resources/{}/files/{}?inbody=true'.format(obj.uri, subdir, filename)
-            with open(file, 'rb') as f:
-                self.session.put(uri, data=f.read())
+            uri = '{}/resources/{}/files/{}'.format(obj.uri, subdir, filename)
+            print(uri)
+            self.session.put(uri, files={'file': open(file, 'rb')})
 
     # function to send a specific sequence to xnat
     def send_sequence(self, project, subject, sequence_dir):
