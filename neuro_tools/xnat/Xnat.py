@@ -59,8 +59,8 @@ class Xnat:
                 'SOURCE': 'uploader',
                 'autoArchive': 'AutoArchive'
             }
-            self.session.upload(uri='/data/services/import', file_=fh, query=query, content_type='application/zip', method='post')
-        except:
+            self.session.upload(uri='/data/services/import', file_=zipfname, query=query, content_type='application/zip', method='post')
+        except Exception as fin:
             print("Unexpected error during XNAT import:")
             print(sys.exc_info())
         zipfname.close()
