@@ -33,8 +33,8 @@ class Xnat:
             uri = '{}/resources/{}/files/{}'.format(obj.uri, subdir, filename)
             self.session.put(uri, files={'file': open(file, 'rb')})
             
-    def archive(self, retries = 5):
-        time.sleep(2)
+    def archive(self, retries = 20):
+        time.sleep(10)
         try:
             if( retries > 0 ):
                 self.__prearc_session.archive(overwrite='delete',trigger_pipelines=True)
